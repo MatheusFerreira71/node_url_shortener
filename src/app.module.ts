@@ -20,4 +20,4 @@ import { HealthModule } from './health/health.module';
 	controllers: [],
 	providers: [],
 })
-export class AppModule { }
+export class AppModule {}

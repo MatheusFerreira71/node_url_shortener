@@ -1,7 +1,7 @@
 import { EnvSchema } from '../schemas';
 
 export function validateEnv(config: Record<string, false>) {
-  return EnvSchema.parse(config);
+	return EnvSchema.parse(config);
 }
 
 export type Env = ReturnType<typeof validateEnv>;

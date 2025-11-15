@@ -1,1 +1,1 @@
-export * from './BaseEntity.resource'
+export * from './BaseEntity.resource';
