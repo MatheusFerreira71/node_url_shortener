@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmConfig, validateEnv } from './config';
+import { HealthModule } from './health/health.module';
 
 @Module({
 	imports: [
@@ -14,6 +15,7 @@ import { typeOrmConfig, validateEnv } from './config';
 			inject: [ConfigService],
 			useFactory: typeOrmConfig,
 		}),
+		HealthModule,
 	],
 	controllers: [],
 	providers: [],
