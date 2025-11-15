@@ -1,5 +1,4 @@
 name: node_url_shortener
-version: '3.8'
 
 services:
   postgres:
@@ -9,6 +8,28 @@ services:
     ports:
       - '5432:5432'
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: docker
-      POSTGRES_DB: url_shortener
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  app:
+    build: .
+    container_name: node_url_shortener_app
+    restart: always
+    ports:
+      - '${PORT:-3000}:${PORT:-3000}'
+    environment:
+      - NODE_ENV=test
+      - PORT=${PORT:-3000}
+      - DB_HOST=postgres
+      - DB_PORT=${DB_PORT}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_NAME=${DB_NAME}
+    depends_on:
+      - postgres
+
+volumes:
+  pgdata:

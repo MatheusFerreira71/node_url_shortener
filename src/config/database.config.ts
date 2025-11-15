@@ -16,5 +16,6 @@ export const typeOrmConfig = (
   migrations: [
     path.join(__dirname, '..', 'database', 'migrations', '*.{ts,js}'),
   ],
+  migrationsRun: true,
   synchronize: false,
 });
