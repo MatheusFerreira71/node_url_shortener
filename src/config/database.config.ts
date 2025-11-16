@@ -1,7 +1,7 @@
 import path from 'node:path';
 import type { ConfigService } from '@nestjs/config';
 import type { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import type { Env } from './env.config';
+import type { Env } from '../schemas/env.schema';
 
 export const typeOrmConfig = (
 	config: ConfigService<Env, true>,
