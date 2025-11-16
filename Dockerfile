@@ -11,7 +11,7 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
 # Instala as dependências
-RUN pnpm install --frozen-lockfile
+RUN pnpm install --frozen-lockfile --ignore-scripts
 
 # Copia o código fonte
 COPY . .
@@ -32,12 +32,11 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
 # Instala apenas as dependências de produção
-RUN pnpm install --prod --frozen-lockfile
+RUN pnpm install --prod --frozen-lockfile --ignore-scripts
 
 # Copia os arquivos compilados do estágio de build
 COPY --from=builder /app/dist ./dist
 
-# Expõe a porta da aplicação (ajuste conforme necessário)
 EXPOSE ${PORT:-3000}
 
 # Comando para iniciar a aplicação

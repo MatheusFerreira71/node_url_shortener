@@ -15,7 +15,10 @@ services:
       - pgdata:/var/lib/postgresql/data
 
   app:
-    build: .
+    build:
+      context: .
+      pull: true
+    image: node_url_shortener_app:latest
     container_name: node_url_shortener_app
     restart: always
     ports:

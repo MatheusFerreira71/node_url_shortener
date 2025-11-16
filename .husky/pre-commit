@@ -1,3 +1,5 @@
+pnpm test
+pnpm test:e2e
 pnpm format
 pnpm lint
 pnpm quality:ci
