@@ -1,6 +1,6 @@
 {
 	"name": "node_url_shortener",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"description": "Aplicativo de encurtamento de URLs desenvolvido em Node.js. Permite converter links longos em endereços curtos e fáceis de compartilhar, com redirecionamento automático para o destino original. Inclui registro das URLs no banco de dados, contagem de cliques e suporte para autenticação e expiração de links.",
 	"author": "Matheus Ferreira",
 	"private": true,
@@ -23,11 +23,14 @@
 		"test:e2e": "jest --config ./test/jest-e2e.json"
 	},
 	"dependencies": {
+		"@nestjs/axios": "^4.0.1",
 		"@nestjs/common": "^11.0.1",
 		"@nestjs/config": "^4.0.2",
 		"@nestjs/core": "^11.0.1",
 		"@nestjs/platform-express": "^11.0.1",
+		"@nestjs/terminus": "^11.0.0",
 		"@nestjs/typeorm": "^11.0.0",
+		"axios": "^1.13.2",
 		"pg": "^8.16.3",
 		"reflect-metadata": "^0.2.2",
 		"rxjs": "^7.8.1",
