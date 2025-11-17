@@ -31,6 +31,7 @@ services:
       - DB_USER=${DB_USER}
       - DB_PASS=${DB_PASS}
       - DB_NAME=${DB_NAME}
+      - HASH_SECRET_KEY=${HASH_SECRET_KEY}
     depends_on:
       - postgres
 
