@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './auth/auth.module';
 import { CommonModule } from './common/common.module';
-import { typeOrmConfig, validateEnv } from './config';
+import { jwtRegisterConfig, typeOrmConfig, validateEnv } from './config';
 import { HealthModule } from './health/health.module';
 import { UserModule } from './user/user.module';
 
@@ -17,9 +19,15 @@ import { UserModule } from './user/user.module';
 			inject: [ConfigService],
 			useFactory: typeOrmConfig,
 		}),
+		JwtModule.registerAsync({
+			global: true,
+			inject: [ConfigService],
+			useFactory: jwtRegisterConfig,
+		}),
 		HealthModule,
 		UserModule,
 		CommonModule,
+		AuthModule,
 	],
 	controllers: [],
 	providers: [],

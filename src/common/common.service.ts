@@ -89,4 +89,18 @@ export class CommonService {
 
 		return decrypted.toString('utf-8');
 	}
+
+	/**
+	 * Compara uma string em texto plano com uma string criptografada
+	 * @param {string} input - A string em texto plano a ser comparada
+	 * @param {string} hashed - A string criptografada para comparação
+	 * @returns {Promise<boolean>} Uma promise que resolve para true se as strings correspondem, false caso contrário
+	 * @example
+	 * const isMatch = await compare('minha-senha', 'abc123def456...');
+	 * console.log(isMatch); // true ou false
+	 */
+	async compare(input: string, hashed: string): Promise<boolean> {
+		const decryptedHash = await this.decodeHash(hashed);
+		return input === decryptedHash;
+	}
 }
