@@ -229,7 +229,6 @@ describe('Health (e2e)', () => {
 				.get('/health/memory')
 				.expect(200);
 
-			// Verifica se o health check está configurado corretamente
 			expect(response.body.details.memory_heap).toBeDefined();
 		});
 
@@ -238,7 +237,6 @@ describe('Health (e2e)', () => {
 				.get('/health/memory')
 				.expect(200);
 
-			// Verifica se o health check está configurado corretamente
 			expect(response.body.details.memory_rss).toBeDefined();
 		});
 	});
