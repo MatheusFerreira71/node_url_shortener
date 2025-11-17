@@ -84,7 +84,7 @@ describe('Login', () => {
 			);
 			expect(jwtService.signAsync).toHaveBeenCalledWith({
 				sub: mockUser.id,
-				username: mockUser.name,
+				email: mockUser.email,
 			});
 			expect(result).toHaveProperty('access_token', mockAccessToken);
 			expect(result).toHaveProperty('expires_at');
@@ -119,7 +119,7 @@ describe('Login', () => {
 
 			expect(jwtService.signAsync).toHaveBeenCalledWith({
 				sub: mockUser.id,
-				username: mockUser.name,
+				email: mockUser.email,
 			});
 		});
 
