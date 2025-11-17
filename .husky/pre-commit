@@ -1,6 +1,5 @@
-npm test
-# Skip e2e tests in pre-commit as they require database
-# npm run test:e2e
-npm run format
-npm run lint
-npm run quality:ci
+pnpm test
+pnpm test:e2e
+pnpm format
+pnpm lint
+pnpm quality:ci
