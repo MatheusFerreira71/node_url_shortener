@@ -1,5 +1,6 @@
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
+import helmet from 'helmet';
 import { AppModule } from './app.module';
 import { ZodExceptionFilter } from './common/filters';
 import { configureZod } from './config/zod.config';
@@ -11,6 +12,8 @@ async function bootstrap() {
 	const port = configService.get('PORT', { infer: true });
 
 	configureZod();
+
+	app.use(helmet());
 
 	app.useGlobalFilters(new ZodExceptionFilter());
 	app.enableShutdownHooks();
