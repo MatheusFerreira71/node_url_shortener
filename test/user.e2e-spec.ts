@@ -27,7 +27,9 @@ describe('User (e2e)', () => {
 	}, 10000);
 
 	afterAll(async () => {
+		await userRepository.query('SELECT 1');
 		await app.close();
+		await new Promise((resolve) => setTimeout(resolve, 100));
 	});
 
 	afterEach(async () => {

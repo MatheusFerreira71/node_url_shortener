@@ -12,6 +12,8 @@ export const EnvSchema = z.object({
 		.default('development'),
 	BCRYPT_SALT_ROUNDS: z.coerce.number().default(10),
 	JWT_SECRET_KEY: z.string().min(32),
+	REDIS_HOST: z.string(),
+	REDIS_PORT: z.coerce.number().default(6379),
 });
 
 export type Env = z.infer<typeof EnvSchema>;

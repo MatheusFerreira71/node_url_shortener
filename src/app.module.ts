@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { BcryptModule } from './bcrypt/bcrypt.module';
 import { jwtRegisterConfig, typeOrmConfig, validateEnv } from './config';
 import { HealthModule } from './health/health.module';
+import { RedisModule } from './redis/redis.module';
 import { UserModule } from './user/user.module';
 
 @Module({
@@ -28,6 +29,7 @@ import { UserModule } from './user/user.module';
 		UserModule,
 		AuthModule,
 		BcryptModule,
+		RedisModule,
 	],
 	controllers: [],
 	providers: [],
