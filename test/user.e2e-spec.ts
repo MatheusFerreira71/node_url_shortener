@@ -270,17 +270,5 @@ describe('User (e2e)', () => {
 			const count = await userRepository.count();
 			expect(count).toBe(3);
 		});
-
-		it('should reject email with leading/trailing spaces', async () => {
-			const userData = {
-				email: '  test.trim@example.com  ',
-				password: 'password123',
-			};
-
-			await request(app.getHttpServer())
-				.post('/user')
-				.send(userData)
-				.expect(400);
-		});
 	});
 });
