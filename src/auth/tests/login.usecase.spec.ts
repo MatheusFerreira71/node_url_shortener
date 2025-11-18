@@ -1,7 +1,7 @@
 import { UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Test, type TestingModule } from '@nestjs/testing';
-import { CommonService } from '../../common/common.service';
+import { BcryptService } from '../../bcrypt/bcrypt.service';
 import type { User } from '../../user/user.entity';
 import { UserService } from '../../user/user.service';
 import type { LoginDto, LoginResponse } from '../auth.types';
@@ -10,7 +10,7 @@ import { Login } from '../usecases';
 describe('Login', () => {
 	let loginUsecase: Login;
 	let userService: jest.Mocked<UserService>;
-	let commonService: jest.Mocked<CommonService>;
+	let bcryptService: jest.Mocked<BcryptService>;
 	let jwtService: jest.Mocked<JwtService>;
 
 	beforeEach(async () => {
@@ -24,7 +24,7 @@ describe('Login', () => {
 					},
 				},
 				{
-					provide: CommonService,
+					provide: BcryptService,
 					useValue: {
 						compare: jest.fn(),
 					},
@@ -40,7 +40,7 @@ describe('Login', () => {
 
 		loginUsecase = module.get<Login>(Login);
 		userService = module.get(UserService);
-		commonService = module.get(CommonService);
+		bcryptService = module.get(BcryptService);
 		jwtService = module.get(JwtService);
 	});
 
@@ -72,13 +72,13 @@ describe('Login', () => {
 
 		it('should authenticate user successfully with valid credentials', async () => {
 			userService.findByEmail.mockResolvedValue(mockUser);
-			commonService.compare.mockResolvedValue(true);
+			bcryptService.compare.mockResolvedValue(true);
 			jwtService.signAsync.mockResolvedValue(mockAccessToken);
 
 			const result: LoginResponse = await loginUsecase.execute(mockLoginDto);
 
 			expect(userService.findByEmail).toHaveBeenCalledWith(mockLoginDto.email);
-			expect(commonService.compare).toHaveBeenCalledWith(
+			expect(bcryptService.compare).toHaveBeenCalledWith(
 				mockLoginDto.password,
 				mockUser.password,
 			);
@@ -92,7 +92,7 @@ describe('Login', () => {
 
 		it('should throw UnauthorizedException when password is invalid', async () => {
 			userService.findByEmail.mockResolvedValue(mockUser);
-			commonService.compare.mockResolvedValue(false);
+			bcryptService.compare.mockResolvedValue(false);
 
 			await expect(loginUsecase.execute(mockLoginDto)).rejects.toThrow(
 				UnauthorizedException,
@@ -102,7 +102,7 @@ describe('Login', () => {
 			);
 
 			expect(userService.findByEmail).toHaveBeenCalledWith(mockLoginDto.email);
-			expect(commonService.compare).toHaveBeenCalledWith(
+			expect(bcryptService.compare).toHaveBeenCalledWith(
 				mockLoginDto.password,
 				mockUser.password,
 			);
@@ -111,7 +111,7 @@ describe('Login', () => {
 
 		it('should return JWT token with correct payload structure', async () => {
 			userService.findByEmail.mockResolvedValue(mockUser);
-			commonService.compare.mockResolvedValue(true);
+			bcryptService.compare.mockResolvedValue(true);
 			jwtService.signAsync.mockResolvedValue(mockAccessToken);
 
 			await loginUsecase.execute(mockLoginDto);
@@ -124,7 +124,7 @@ describe('Login', () => {
 		it('should return expires_at approximately 1 hour from now', async () => {
 			const beforeExecution = Date.now();
 			userService.findByEmail.mockResolvedValue(mockUser);
-			commonService.compare.mockResolvedValue(true);
+			bcryptService.compare.mockResolvedValue(true);
 			jwtService.signAsync.mockResolvedValue(mockAccessToken);
 
 			const result = await loginUsecase.execute(mockLoginDto);
@@ -144,19 +144,19 @@ describe('Login', () => {
 			await expect(loginUsecase.execute(mockLoginDto)).rejects.toThrow(error);
 
 			expect(userService.findByEmail).toHaveBeenCalledWith(mockLoginDto.email);
-			expect(commonService.compare).not.toHaveBeenCalled();
+			expect(bcryptService.compare).not.toHaveBeenCalled();
 			expect(jwtService.signAsync).not.toHaveBeenCalled();
 		});
 
-		it('should propagate error when commonService.compare fails', async () => {
+		it('should propagate error when bcryptService.compare fails', async () => {
 			const error = new Error('Compare failed');
 			userService.findByEmail.mockResolvedValue(mockUser);
-			commonService.compare.mockRejectedValue(error);
+			bcryptService.compare.mockRejectedValue(error);
 
 			await expect(loginUsecase.execute(mockLoginDto)).rejects.toThrow(error);
 
 			expect(userService.findByEmail).toHaveBeenCalledWith(mockLoginDto.email);
-			expect(commonService.compare).toHaveBeenCalledWith(
+			expect(bcryptService.compare).toHaveBeenCalledWith(
 				mockLoginDto.password,
 				mockUser.password,
 			);
@@ -166,13 +166,13 @@ describe('Login', () => {
 		it('should propagate error when jwtService.signAsync fails', async () => {
 			const error = new Error('JWT signing failed');
 			userService.findByEmail.mockResolvedValue(mockUser);
-			commonService.compare.mockResolvedValue(true);
+			bcryptService.compare.mockResolvedValue(true);
 			jwtService.signAsync.mockRejectedValue(error);
 
 			await expect(loginUsecase.execute(mockLoginDto)).rejects.toThrow(error);
 
 			expect(userService.findByEmail).toHaveBeenCalledWith(mockLoginDto.email);
-			expect(commonService.compare).toHaveBeenCalledWith(
+			expect(bcryptService.compare).toHaveBeenCalledWith(
 				mockLoginDto.password,
 				mockUser.password,
 			);
@@ -181,12 +181,12 @@ describe('Login', () => {
 
 		it('should compare password in correct order (plain, hashed)', async () => {
 			userService.findByEmail.mockResolvedValue(mockUser);
-			commonService.compare.mockResolvedValue(true);
+			bcryptService.compare.mockResolvedValue(true);
 			jwtService.signAsync.mockResolvedValue(mockAccessToken);
 
 			await loginUsecase.execute(mockLoginDto);
 
-			expect(commonService.compare).toHaveBeenCalledWith(
+			expect(bcryptService.compare).toHaveBeenCalledWith(
 				mockLoginDto.password,
 				mockUser.password,
 			);
@@ -194,7 +194,7 @@ describe('Login', () => {
 
 		it('should call userService.findByEmail with correct email', async () => {
 			userService.findByEmail.mockResolvedValue(mockUser);
-			commonService.compare.mockResolvedValue(true);
+			bcryptService.compare.mockResolvedValue(true);
 			jwtService.signAsync.mockResolvedValue(mockAccessToken);
 
 			await loginUsecase.execute(mockLoginDto);

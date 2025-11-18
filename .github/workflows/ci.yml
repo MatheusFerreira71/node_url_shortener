@@ -61,7 +61,7 @@ jobs:
           DB_USER: test_user
           DB_PASS: test_password
           DB_NAME: test_db
-          HASH_SECRET_KEY: ${{ secrets.HASH_SECRET_KEY }}
+          BCRYPT_SALT_ROUNDS: ${{ secrets.BCRYPT_SALT_ROUNDS }}
           JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
         run: pnpm test:e2e
 

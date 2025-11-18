@@ -10,7 +10,7 @@ export const EnvSchema = z.object({
 	NODE_ENV: z
 		.enum(['development', 'production', 'test'])
 		.default('development'),
-	HASH_SECRET_KEY: z.string().min(32),
+	BCRYPT_SALT_ROUNDS: z.coerce.number().default(10),
 	JWT_SECRET_KEY: z.string().min(32),
 });
 

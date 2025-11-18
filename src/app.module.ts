@@ -3,7 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
-import { CommonModule } from './common/common.module';
+import { BcryptModule } from './bcrypt/bcrypt.module';
 import { jwtRegisterConfig, typeOrmConfig, validateEnv } from './config';
 import { HealthModule } from './health/health.module';
 import { UserModule } from './user/user.module';
@@ -26,8 +26,8 @@ import { UserModule } from './user/user.module';
 		}),
 		HealthModule,
 		UserModule,
-		CommonModule,
 		AuthModule,
+		BcryptModule,
 	],
 	controllers: [],
 	providers: [],

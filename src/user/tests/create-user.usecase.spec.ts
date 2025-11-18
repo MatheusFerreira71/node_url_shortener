@@ -1,6 +1,6 @@
 import { ConflictException } from '@nestjs/common';
 import type { Repository } from 'typeorm';
-import type { CommonService } from '../../common/common.service';
+import type { BcryptService } from '../../bcrypt/bcrypt.service';
 import { CreateUser } from '../usecases';
 import type { User } from '../user.entity';
 import type { CreatedUserResponse, UserCreateDto } from '../user.types';
@@ -8,7 +8,7 @@ import type { CreatedUserResponse, UserCreateDto } from '../user.types';
 describe('CreateUser', () => {
 	let createUser: CreateUser;
 	let usersRepository: jest.Mocked<Repository<User>>;
-	let commonService: jest.Mocked<CommonService>;
+	let bcryptService: jest.Mocked<BcryptService>;
 
 	beforeEach(() => {
 		usersRepository = {
@@ -17,11 +17,11 @@ describe('CreateUser', () => {
 			save: jest.fn(),
 		} as unknown as jest.Mocked<Repository<User>>;
 
-		commonService = {
+		bcryptService = {
 			hash: jest.fn(),
-		} as unknown as jest.Mocked<CommonService>;
+		} as unknown as jest.Mocked<BcryptService>;
 
-		createUser = new CreateUser(usersRepository, commonService);
+		createUser = new CreateUser(usersRepository, bcryptService);
 	});
 
 	afterEach(() => {
@@ -55,7 +55,7 @@ describe('CreateUser', () => {
 			const userDto = { ...mockUserCreateDto };
 
 			usersRepository.findOne.mockResolvedValue(null);
-			commonService.hash.mockResolvedValue(mockHashedPassword);
+			bcryptService.hash.mockResolvedValue(mockHashedPassword);
 			usersRepository.create.mockReturnValue(mockCreatedUser);
 			usersRepository.save.mockResolvedValue(mockCreatedUser);
 
@@ -64,7 +64,7 @@ describe('CreateUser', () => {
 			expect(usersRepository.findOne).toHaveBeenCalledWith({
 				where: { email: userDto.email },
 			});
-			expect(commonService.hash).toHaveBeenCalledWith('SecurePassword123');
+			expect(bcryptService.hash).toHaveBeenCalledWith('SecurePassword123');
 			expect(usersRepository.create).toHaveBeenCalledWith({
 				name: userDto.name,
 				email: userDto.email,
@@ -102,7 +102,7 @@ describe('CreateUser', () => {
 			expect(usersRepository.findOne).toHaveBeenCalledWith({
 				where: { email: mockUserCreateDto.email },
 			});
-			expect(commonService.hash).not.toHaveBeenCalled();
+			expect(bcryptService.hash).not.toHaveBeenCalled();
 			expect(usersRepository.create).not.toHaveBeenCalled();
 			expect(usersRepository.save).not.toHaveBeenCalled();
 		});
@@ -112,7 +112,7 @@ describe('CreateUser', () => {
 			const originalPassword = userDtoCopy.password;
 
 			usersRepository.findOne.mockResolvedValue(null);
-			commonService.hash.mockResolvedValue(mockHashedPassword);
+			bcryptService.hash.mockResolvedValue(mockHashedPassword);
 			usersRepository.create.mockReturnValue(mockCreatedUser);
 			usersRepository.save.mockResolvedValue(mockCreatedUser);
 
@@ -128,7 +128,7 @@ describe('CreateUser', () => {
 
 		it('should return only allowed fields (id, name, email, created_at)', async () => {
 			usersRepository.findOne.mockResolvedValue(null);
-			commonService.hash.mockResolvedValue(mockHashedPassword);
+			bcryptService.hash.mockResolvedValue(mockHashedPassword);
 			usersRepository.create.mockReturnValue(mockCreatedUser);
 			usersRepository.save.mockResolvedValue(mockCreatedUser);
 
@@ -149,14 +149,14 @@ describe('CreateUser', () => {
 			const hashError = new Error('Hash generation failed');
 
 			usersRepository.findOne.mockResolvedValue(null);
-			commonService.hash.mockRejectedValue(hashError);
+			bcryptService.hash.mockRejectedValue(hashError);
 
 			await expect(createUser.execute(mockUserCreateDto)).rejects.toThrow(
 				hashError,
 			);
 
 			expect(usersRepository.findOne).toHaveBeenCalled();
-			expect(commonService.hash).toHaveBeenCalled();
+			expect(bcryptService.hash).toHaveBeenCalled();
 			expect(usersRepository.create).not.toHaveBeenCalled();
 			expect(usersRepository.save).not.toHaveBeenCalled();
 		});
@@ -165,7 +165,7 @@ describe('CreateUser', () => {
 			const saveError = new Error('Database save failed');
 
 			usersRepository.findOne.mockResolvedValue(null);
-			commonService.hash.mockResolvedValue(mockHashedPassword);
+			bcryptService.hash.mockResolvedValue(mockHashedPassword);
 			usersRepository.create.mockReturnValue(mockCreatedUser);
 			usersRepository.save.mockRejectedValue(saveError);
 
@@ -174,7 +174,7 @@ describe('CreateUser', () => {
 			);
 
 			expect(usersRepository.findOne).toHaveBeenCalled();
-			expect(commonService.hash).toHaveBeenCalled();
+			expect(bcryptService.hash).toHaveBeenCalled();
 			expect(usersRepository.create).toHaveBeenCalled();
 			expect(usersRepository.save).toHaveBeenCalled();
 		});
