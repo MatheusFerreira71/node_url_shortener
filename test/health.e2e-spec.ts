@@ -2,14 +2,14 @@ import type { INestApplication } from '@nestjs/common';
 import { Test, type TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 import * as packageJson from '../package.json';
-import { HealthModule } from '../src/health/health.module';
+import { AppModule } from '../src/app.module';
 
 describe('Health (e2e)', () => {
 	let app: INestApplication;
 
 	beforeAll(async () => {
 		const moduleFixture: TestingModule = await Test.createTestingModule({
-			imports: [HealthModule],
+			imports: [AppModule],
 		}).compile();
 
 		app = moduleFixture.createNestApplication();
