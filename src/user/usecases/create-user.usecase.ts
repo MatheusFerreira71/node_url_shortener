@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 // biome-ignore lint/style/useImportType: falso positivo, o nest precisa usar isso na injeção de dependência
 import { Repository } from 'typeorm';
 // biome-ignore lint/style/useImportType: falso positivo, o nest precisa usar isso na injeção de dependência
-import { CommonService } from '../../common/common.service';
+import { BcryptService } from '../../bcrypt/bcrypt.service';
 import type { Usecase } from '../../resources';
 import { User } from '../user.entity';
 import type { CreatedUserResponse, UserCreateDto } from '../user.types';
@@ -12,7 +12,7 @@ import type { CreatedUserResponse, UserCreateDto } from '../user.types';
 export class CreateUser implements Usecase<UserCreateDto, CreatedUserResponse> {
 	constructor(
 		@InjectRepository(User) private usersRepository: Repository<User>,
-		private commonService: CommonService,
+		private bcryptService: BcryptService,
 	) {}
 
 	async execute(args: UserCreateDto): Promise<CreatedUserResponse> {
@@ -27,7 +27,7 @@ export class CreateUser implements Usecase<UserCreateDto, CreatedUserResponse> {
 			});
 		}
 
-		const hashedPassword = await this.commonService.hash(args.password);
+		const hashedPassword = await this.bcryptService.hash(args.password);
 		const userToCreate = { ...args, password: hashedPassword };
 
 		const user = this.usersRepository.create(userToCreate);

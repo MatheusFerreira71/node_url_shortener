@@ -1,5 +1,7 @@
+packages:
+  - packages/*
+
 onlyBuiltDependencies:
   - '@nestjs/core'
+  - bcrypt
   - unrs-resolver
-packages:
-  - 'packages/*'
