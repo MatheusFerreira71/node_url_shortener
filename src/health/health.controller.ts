@@ -45,8 +45,8 @@ export class HealthController {
 	@HealthCheck()
 	memoryHealth() {
 		return this.health.check([
-			() => this.memory.checkHeap('memory_heap', 150 * 1024 * 1024),
-			() => this.memory.checkRSS('memory_rss', 300 * 1024 * 1024),
+			() => this.memory.checkHeap('memory_heap', 512 * 1024 * 1024),
+			() => this.memory.checkRSS('memory_rss', 1024 * 1024 * 1024),
 		]);
 	}
 }

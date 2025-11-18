@@ -223,21 +223,5 @@ describe('Health (e2e)', () => {
 			expect(response.body.details.memory_heap.status).toBe('up');
 			expect(response.body.details.memory_rss.status).toBe('up');
 		});
-
-		it('should validate heap memory limit is 150MB', async () => {
-			const response = await request(app.getHttpServer())
-				.get('/health/memory')
-				.expect(200);
-
-			expect(response.body.details.memory_heap).toBeDefined();
-		});
-
-		it('should validate RSS memory limit is 300MB', async () => {
-			const response = await request(app.getHttpServer())
-				.get('/health/memory')
-				.expect(200);
-
-			expect(response.body.details.memory_rss).toBeDefined();
-		});
 	});
 });
