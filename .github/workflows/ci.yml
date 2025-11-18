@@ -61,6 +61,8 @@ jobs:
           DB_USER: test_user
           DB_PASS: test_password
           DB_NAME: test_db
+          HASH_SECRET_KEY: ${{ secrets.HASH_SECRET_KEY }}
+          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
         run: pnpm test:e2e
 
       - name: Build application
