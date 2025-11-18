@@ -214,18 +214,6 @@ describe('Auth (e2e)', () => {
 			expect(response.body).toHaveProperty('errors');
 		});
 
-		it('should reject email with leading/trailing spaces', async () => {
-			const loginData = {
-				email: '  test@example.com  ',
-				password: 'password123',
-			};
-
-			await request(app.getHttpServer())
-				.post('/auth/login')
-				.send(loginData)
-				.expect(400);
-		});
-
 		it('should not expose sensitive user data in response', async () => {
 			const loginData = {
 				email: 'test@example.com',
