@@ -1,4 +1,4 @@
-import * as z from 'zod';
+import { z } from 'zod';
 
 export const EnvSchema = z.object({
 	DB_HOST: z.string(),
@@ -10,4 +10,8 @@ export const EnvSchema = z.object({
 	NODE_ENV: z
 		.enum(['development', 'production', 'test'])
 		.default('development'),
+	HASH_SECRET_KEY: z.string().min(32),
+	JWT_SECRET_KEY: z.string().min(32),
 });
+
+export type Env = z.infer<typeof EnvSchema>;

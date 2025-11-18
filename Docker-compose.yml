@@ -24,13 +24,15 @@ services:
     ports:
       - '${PORT:-3000}:${PORT:-3000}'
     environment:
-      - NODE_ENV=test
+      - NODE_ENV=development
       - PORT=${PORT:-3000}
       - DB_HOST=postgres
       - DB_PORT=${DB_PORT}
       - DB_USER=${DB_USER}
       - DB_PASS=${DB_PASS}
       - DB_NAME=${DB_NAME}
+      - HASH_SECRET_KEY=${HASH_SECRET_KEY}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
     depends_on:
       - postgres
 
