@@ -31,7 +31,7 @@ export class Login implements Usecase<LoginDto, LoginResponse> {
 			});
 		}
 
-		const payload = { sub: user.id, username: user.name };
+		const payload = { sub: user.id };
 		return {
 			access_token: await this.jwtService.signAsync(payload),
 			expires_at: new Date(Date.now() + 3600 * 1000),
