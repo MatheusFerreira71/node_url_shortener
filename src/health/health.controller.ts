@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, HttpCode, HttpStatus } from '@nestjs/common';
 // biome-ignore lint/style/useImportType: falso positivo, o nest precisa das classes para injeção de dependência
 import {
 	HealthCheck,
@@ -18,6 +18,7 @@ export class HealthController {
 		private memory: MemoryHealthIndicator,
 	) {}
 
+	@HttpCode(HttpStatus.OK)
 	@Get('version')
 	getVersion() {
 		return {
@@ -27,6 +28,7 @@ export class HealthController {
 		};
 	}
 
+	@HttpCode(HttpStatus.OK)
 	@Get('http')
 	@HealthCheck()
 	httpHealth() {
@@ -35,12 +37,14 @@ export class HealthController {
 		]);
 	}
 
+	@HttpCode(HttpStatus.OK)
 	@Get('db')
 	@HealthCheck()
 	dbHealth() {
 		return this.health.check([() => this.db.pingCheck('database')]);
 	}
 
+	@HttpCode(HttpStatus.OK)
 	@Get('memory')
 	@HealthCheck()
 	memoryHealth() {
