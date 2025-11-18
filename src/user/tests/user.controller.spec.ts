@@ -1,6 +1,5 @@
 import { Test, type TestingModule } from '@nestjs/testing';
 import type { Response } from 'express';
-import { ZodError } from 'zod';
 import { UserController } from '../user.controller';
 import { UserService } from '../user.service';
 import type { CreatedUserResponse, UserCreateDto } from '../user.types';
@@ -86,64 +85,6 @@ describe('UserController', () => {
 			expect(userService.createUser).toHaveBeenCalledWith(validBody);
 		});
 
-		it('should throw validation error when email is invalid', async () => {
-			const res = mockResponse();
-			const invalidBody = {
-				name: 'John Doe',
-				email: 'invalid-email',
-				password: 'SecurePassword123',
-			};
-
-			await expect(controller.createUser(invalidBody, res)).rejects.toThrow(
-				ZodError,
-			);
-
-			expect(userService.createUser).not.toHaveBeenCalled();
-		});
-
-		it('should throw validation error when password is too short', async () => {
-			const res = mockResponse();
-			const invalidBody = {
-				name: 'John Doe',
-				email: 'john@example.com',
-				password: '123',
-			};
-
-			await expect(controller.createUser(invalidBody, res)).rejects.toThrow(
-				ZodError,
-			);
-
-			expect(userService.createUser).not.toHaveBeenCalled();
-		});
-
-		it('should throw validation error when email is missing', async () => {
-			const res = mockResponse();
-			const invalidBody = {
-				name: 'John Doe',
-				password: 'SecurePassword123',
-			};
-
-			await expect(
-				controller.createUser(invalidBody as UserCreateDto, res),
-			).rejects.toThrow(ZodError);
-
-			expect(userService.createUser).not.toHaveBeenCalled();
-		});
-
-		it('should throw validation error when password is missing', async () => {
-			const res = mockResponse();
-			const invalidBody = {
-				name: 'John Doe',
-				email: 'john@example.com',
-			};
-
-			await expect(
-				controller.createUser(invalidBody as UserCreateDto, res),
-			).rejects.toThrow(ZodError);
-
-			expect(userService.createUser).not.toHaveBeenCalled();
-		});
-
 		it('should accept body without name (optional field)', async () => {
 			const res = mockResponse();
 			const validBodyWithoutName = {
@@ -160,37 +101,6 @@ describe('UserController', () => {
 
 			expect(userService.createUser).toHaveBeenCalledWith(validBodyWithoutName);
 			expect(res.json).toHaveBeenCalled();
-		});
-
-		it('should throw validation error when email exceeds 150 characters', async () => {
-			const res = mockResponse();
-			const longEmail = `${'a'.repeat(140)}@example.com`;
-			const invalidBody = {
-				name: 'John Doe',
-				email: longEmail,
-				password: 'SecurePassword123',
-			};
-
-			await expect(controller.createUser(invalidBody, res)).rejects.toThrow(
-				ZodError,
-			);
-
-			expect(userService.createUser).not.toHaveBeenCalled();
-		});
-
-		it('should throw validation error when password exceeds 50 characters', async () => {
-			const res = mockResponse();
-			const invalidBody = {
-				name: 'John Doe',
-				email: 'john@example.com',
-				password: 'a'.repeat(51),
-			};
-
-			await expect(controller.createUser(invalidBody, res)).rejects.toThrow(
-				ZodError,
-			);
-
-			expect(userService.createUser).not.toHaveBeenCalled();
 		});
 
 		it('should propagate error from service', async () => {

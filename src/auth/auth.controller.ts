@@ -5,8 +5,10 @@ import {
 	HttpStatus,
 	Post,
 	Res,
+	UsePipes,
 } from '@nestjs/common';
 import type { Response } from 'express';
+import { ZodValidationPipe } from '../common/pipes';
 import { LoginSchema } from './auth.schema';
 // biome-ignore lint/style/useImportType: falso positivo, o nest precisa usar isso na injeção de dependência
 import { AuthService } from './auth.service';
@@ -18,10 +20,9 @@ export class AuthController {
 
 	@HttpCode(HttpStatus.OK)
 	@Post('login')
+	@UsePipes(new ZodValidationPipe(LoginSchema))
 	async login(@Body() dto: LoginDto, @Res() res: Response): Promise<Response> {
-		const parsedDto = LoginSchema.parse(dto);
-
-		const loginResponse = await this.authService.login(parsedDto);
+		const loginResponse = await this.authService.login(dto);
 		return res.json(loginResponse);
 	}
 }

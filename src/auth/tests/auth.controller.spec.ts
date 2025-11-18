@@ -1,6 +1,5 @@
 import { Test, type TestingModule } from '@nestjs/testing';
 import type { Response } from 'express';
-import { ZodError } from 'zod';
 import { AuthController } from '../auth.controller';
 import { AuthService } from '../auth.service';
 import type { LoginDto, LoginResponse } from '../auth.types';
@@ -78,102 +77,6 @@ describe('AuthController', () => {
 			await controller.login(validBody, res);
 
 			expect(authService.login).toHaveBeenCalledWith(validBody);
-		});
-
-		it('should throw validation error when email is invalid', async () => {
-			const res = mockResponse();
-			const invalidBody = {
-				email: 'invalid-email',
-				password: 'SecurePassword123',
-			};
-
-			await expect(
-				controller.login(invalidBody as LoginDto, res),
-			).rejects.toThrow(ZodError);
-
-			expect(authService.login).not.toHaveBeenCalled();
-		});
-
-		it('should throw validation error when email is missing', async () => {
-			const res = mockResponse();
-			const invalidBody = {
-				password: 'SecurePassword123',
-			};
-
-			await expect(
-				controller.login(invalidBody as LoginDto, res),
-			).rejects.toThrow(ZodError);
-
-			expect(authService.login).not.toHaveBeenCalled();
-		});
-
-		it('should throw validation error when password is missing', async () => {
-			const res = mockResponse();
-			const invalidBody = {
-				email: 'john@example.com',
-			};
-
-			await expect(
-				controller.login(invalidBody as LoginDto, res),
-			).rejects.toThrow(ZodError);
-
-			expect(authService.login).not.toHaveBeenCalled();
-		});
-
-		it('should throw validation error when password is too short', async () => {
-			const res = mockResponse();
-			const invalidBody = {
-				email: 'john@example.com',
-				password: '123',
-			};
-
-			await expect(
-				controller.login(invalidBody as LoginDto, res),
-			).rejects.toThrow(ZodError);
-
-			expect(authService.login).not.toHaveBeenCalled();
-		});
-
-		it('should throw validation error when password is too long', async () => {
-			const res = mockResponse();
-			const invalidBody = {
-				email: 'john@example.com',
-				password: 'a'.repeat(51),
-			};
-
-			await expect(
-				controller.login(invalidBody as LoginDto, res),
-			).rejects.toThrow(ZodError);
-
-			expect(authService.login).not.toHaveBeenCalled();
-		});
-
-		it('should throw validation error when email is too long', async () => {
-			const res = mockResponse();
-			const invalidBody = {
-				email: `${'a'.repeat(140)}@example.com`,
-				password: 'password123',
-			};
-
-			await expect(
-				controller.login(invalidBody as LoginDto, res),
-			).rejects.toThrow(ZodError);
-
-			expect(authService.login).not.toHaveBeenCalled();
-		});
-
-		it('should reject email with leading/trailing spaces', async () => {
-			const res = mockResponse();
-			const bodyWithSpaces = {
-				email: '  john@example.com  ',
-				password: 'password123',
-			};
-
-			await expect(
-				controller.login(bodyWithSpaces as LoginDto, res),
-			).rejects.toThrow(ZodError);
-
-			expect(authService.login).not.toHaveBeenCalled();
 		});
 
 		it('should propagate error from service', async () => {
