@@ -8,6 +8,6 @@ export class AuthService {
 	constructor(private loginUsecase: Login) {}
 
 	async login(dto: LoginDto): Promise<LoginResponse> {
-		return await this.loginUsecase.execute(dto);
+		return this.loginUsecase.execute(dto);
 	}
 }

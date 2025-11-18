@@ -12,10 +12,10 @@ export class UserService {
 	) {}
 
 	async createUser(args: UserCreateDto): Promise<CreatedUserResponse> {
-		return await this.createUserUsecase.execute(args);
+		return this.createUserUsecase.execute(args);
 	}
 
 	async findByEmail(email: string): Promise<User> {
-		return await this.findByEmailUsecase.execute(email);
+		return this.findByEmailUsecase.execute(email);
 	}
 }
