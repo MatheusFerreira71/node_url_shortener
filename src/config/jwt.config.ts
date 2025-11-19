@@ -1,6 +1,6 @@
 import type { ConfigService } from '@nestjs/config';
 import type { JwtModuleOptions } from '@nestjs/jwt';
-import type { Env } from '../schemas';
+import type { Env } from '../types/globals.types';
 
 export const jwtRegisterConfig = (
 	config: ConfigService<Env, true>,

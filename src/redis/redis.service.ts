@@ -2,7 +2,7 @@ import { Injectable, type OnModuleDestroy } from '@nestjs/common';
 // biome-ignore lint/style/useImportType: falso-negativo, o nest precisa do tipo para injeção de dependência
 import { ConfigService } from '@nestjs/config';
 import Redis from 'ioredis';
-import type { Env } from '../schemas';
+import type { Env } from '../types/globals.types';
 
 @Injectable()
 export class RedisService implements OnModuleDestroy {
@@ -24,13 +24,11 @@ export class RedisService implements OnModuleDestroy {
 		await this.redis.incr(redisKey);
 	}
 
-	async getKeyValue(linkId: string): Promise<string | null> {
-		const redisKey = `link-${linkId}`;
+	async getKeyValue(redisKey: string): Promise<string | null> {
 		return await this.redis.get(redisKey);
 	}
 
-	async removeKey(linkId: string): Promise<void> {
-		const redisKey = `link-${linkId}`;
+	async removeKey(redisKey: string): Promise<void> {
 		await this.redis.del(redisKey);
 	}
 

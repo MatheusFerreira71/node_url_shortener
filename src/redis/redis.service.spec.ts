@@ -86,34 +86,34 @@ describe('RedisService', () => {
 
 	describe('getKeyValue', () => {
 		it('should return the value of a key from Redis', async () => {
-			const linkId = '12345';
+			const redisKey = 'link-12345';
 			const expectedValue = '42';
 			redisMock.get.mockResolvedValue(expectedValue);
 
-			const result = await service.getKeyValue(linkId);
+			const result = await service.getKeyValue(redisKey);
 
 			expect(redisMock.get).toHaveBeenCalledWith('link-12345');
 			expect(result).toBe(expectedValue);
 		});
 
 		it('should return null when key does not exist', async () => {
-			const linkId = 'nonexistent';
+			const redisKey = 'link-nonexistent';
 			redisMock.get.mockResolvedValue(null);
 
-			const result = await service.getKeyValue(linkId);
+			const result = await service.getKeyValue(redisKey);
 
 			expect(redisMock.get).toHaveBeenCalledWith('link-nonexistent');
 			expect(result).toBeNull();
 		});
 
-		it('should handle different link IDs correctly', async () => {
-			const linkId1 = 'abc123';
-			const linkId2 = 'xyz789';
+		it('should handle different redis keys correctly', async () => {
+			const redisKey1 = 'link-abc123';
+			const redisKey2 = 'link-xyz789';
 
 			redisMock.get.mockResolvedValueOnce('10').mockResolvedValueOnce('20');
 
-			const result1 = await service.getKeyValue(linkId1);
-			const result2 = await service.getKeyValue(linkId2);
+			const result1 = await service.getKeyValue(redisKey1);
+			const result2 = await service.getKeyValue(redisKey2);
 
 			expect(result1).toBe('10');
 			expect(result2).toBe('20');
@@ -124,22 +124,22 @@ describe('RedisService', () => {
 
 	describe('removeKey', () => {
 		it('should remove a key from Redis', async () => {
-			const linkId = '12345';
+			const redisKey = 'link-12345';
 			redisMock.del.mockResolvedValue(1);
 
-			await service.removeKey(linkId);
+			await service.removeKey(redisKey);
 
 			expect(redisMock.del).toHaveBeenCalledWith('link-12345');
 		});
 
-		it('should handle removal of different link IDs', async () => {
-			const linkId1 = 'abc123';
-			const linkId2 = 'xyz789';
+		it('should handle removal of different redis keys', async () => {
+			const redisKey1 = 'link-abc123';
+			const redisKey2 = 'link-xyz789';
 
 			redisMock.del.mockResolvedValue(1);
 
-			await service.removeKey(linkId1);
-			await service.removeKey(linkId2);
+			await service.removeKey(redisKey1);
+			await service.removeKey(redisKey2);
 
 			expect(redisMock.del).toHaveBeenCalledWith('link-abc123');
 			expect(redisMock.del).toHaveBeenCalledWith('link-xyz789');
@@ -147,10 +147,10 @@ describe('RedisService', () => {
 		});
 
 		it('should handle removal of non-existent keys', async () => {
-			const linkId = 'nonexistent';
+			const redisKey = 'link-nonexistent';
 			redisMock.del.mockResolvedValue(0);
 
-			await service.removeKey(linkId);
+			await service.removeKey(redisKey);
 
 			expect(redisMock.del).toHaveBeenCalledWith('link-nonexistent');
 		});

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 // biome-ignore lint/style/useImportType: falso positivo, o nest precisa usar isso na injeção de dependência
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
-import type { Env } from '../schemas';
+import type { Env } from '../types/globals.types';
 
 @Injectable()
 export class BcryptService {

@@ -4,7 +4,7 @@ import helmet from 'helmet';
 import { AppModule } from './app.module';
 import { ZodExceptionFilter } from './common/filters';
 import { configureZod } from './config/zod.config';
-import type { Env } from './schemas/env.schema';
+import type { Env } from './types/globals.types';
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule);
