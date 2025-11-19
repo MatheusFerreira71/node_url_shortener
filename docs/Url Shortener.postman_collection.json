@@ -1,0 +1,321 @@
+{
+	"info": {
+		"_postman_id": "f32047b2-0092-4339-824a-801f169bc0e1",
+		"name": "Url Shortener",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20491267",
+		"_collection_link": "https://dark-shadow-638289.postman.co/workspace/New-Team-Workspace~38f474c5-7a5f-4a77-9b4a-7762f71c5f88/collection/20491267-f32047b2-0092-4339-824a-801f169bc0e1?action=share&source=collection_link&creator=20491267"
+	},
+	"item": [
+		{
+			"name": "Health",
+			"item": [
+				{
+					"name": "Version",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/health/version",
+							"host": ["{{base_url}}"],
+							"path": ["health", "version"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Http Health",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/health/http",
+							"host": ["{{base_url}}"],
+							"path": ["health", "http"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Database Health",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/health/db",
+							"host": ["{{base_url}}"],
+							"path": ["health", "db"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Memory Health",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/health/memory",
+							"host": ["{{base_url}}"],
+							"path": ["health", "memory"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [""],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{$randomFullName}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"password\": \"{{$randomPassword}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/user",
+							"host": ["{{base_url}}"],
+							"path": ["user"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set('access_token', pm.response.json().access_token)"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"Leila.Purdy@hotmail.com\",\r\n    \"password\": \"3W_ae20951IxlwE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "login"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Link",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"original_url\": \"https://docs.nestjs.com/\",\r\n    \"expires_at\": \"2025-11-19 17:44:33.086 -0300\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/link",
+							"host": ["{{base_url}}"],
+							"path": ["link"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/link",
+							"host": ["{{base_url}}"],
+							"path": ["link"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/link/:hash",
+							"host": ["{{base_url}}"],
+							"path": ["link", ":hash"],
+							"variable": [
+								{
+									"key": "hash",
+									"value": "v2brcP",
+									"description": "Hash do link a ser deletado"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"current_url\": \"https://docs.nestjs.com/middleware\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/link/:hash",
+							"host": ["{{base_url}}"],
+							"path": ["link", ":hash"],
+							"variable": [
+								{
+									"key": "hash",
+									"value": "3dI30y",
+									"description": "Hash do link a ser deletado"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Access Link",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/link/:hash",
+							"host": ["{{base_url}}"],
+							"path": ["link", ":hash"],
+							"variable": [
+								{
+									"key": "hash",
+									"value": "54yMUC",
+									"description": "Hash do link encurtado"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{access_token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {},
+						"exec": [""]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {},
+						"exec": [""]
+					}
+				}
+			]
+		},
+		{
+			"name": "Docs",
+			"item": [
+				{
+					"name": "Get Docs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/docs",
+							"host": ["{{base_url}}"],
+							"path": ["api", "docs"]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [""]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [""]
+			}
+		}
+	]
+}
