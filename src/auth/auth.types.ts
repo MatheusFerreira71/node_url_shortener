@@ -6,3 +6,6 @@ export type LoginResponse = {
 	access_token: string;
 	expires_at: Date;
 };
+export type JwtPayload = {
+	sub: string;
+};
