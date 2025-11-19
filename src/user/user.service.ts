@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 // biome-ignore lint/style/useImportType: falso positivo, o nest precisa usar isso na injeção de dependência
-import { CreateUser, FindByEmail } from './usecases';
+import { CreateUserUsecase, FindByEmailUsecase } from './usecases';
 import type { User } from './user.entity';
 import type { CreatedUserResponse, UserCreateDto } from './user.types';
 
 @Injectable()
 export class UserService {
 	constructor(
-		private createUserUsecase: CreateUser,
-		private findByEmailUsecase: FindByEmail,
+		private createUserUsecase: CreateUserUsecase,
+		private findByEmailUsecase: FindByEmailUsecase,
 	) {}
 
 	async createUser(args: UserCreateDto): Promise<CreatedUserResponse> {

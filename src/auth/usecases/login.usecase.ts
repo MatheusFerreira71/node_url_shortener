@@ -9,7 +9,7 @@ import { UserService } from '../../user/user.service';
 import type { JwtPayload, LoginDto, LoginResponse } from '../auth.types';
 
 @Injectable()
-export class Login implements Usecase<LoginDto, LoginResponse> {
+export class LoginUsecase implements Usecase<LoginDto, LoginResponse> {
 	constructor(
 		private userService: UserService,
 		private bcryptService: BcryptService,

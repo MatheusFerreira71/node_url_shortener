@@ -9,7 +9,9 @@ import { User } from '../user.entity';
 import type { CreatedUserResponse, UserCreateDto } from '../user.types';
 
 @Injectable()
-export class CreateUser implements Usecase<UserCreateDto, CreatedUserResponse> {
+export class CreateUserUsecase
+	implements Usecase<UserCreateDto, CreatedUserResponse>
+{
 	constructor(
 		@InjectRepository(User) private usersRepository: Repository<User>,
 		private bcryptService: BcryptService,

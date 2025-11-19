@@ -1,5 +1,5 @@
 import { Test, type TestingModule } from '@nestjs/testing';
-import { CreateUser, FindByEmail } from '../usecases';
+import { CreateUserUsecase, FindByEmailUsecase } from '../usecases';
 import type { User } from '../user.entity';
 import { UserService } from '../user.service';
 import type { CreatedUserResponse, UserCreateDto } from '../user.types';
@@ -8,21 +8,21 @@ jest.mock('../usecases');
 
 describe('UserService', () => {
 	let service: UserService;
-	let createUserUsecase: CreateUser;
-	let findByEmailUsecase: FindByEmail;
+	let createUserUsecase: CreateUserUsecase;
+	let findByEmailUsecase: FindByEmailUsecase;
 
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
 			providers: [
 				UserService,
 				{
-					provide: CreateUser,
+					provide: CreateUserUsecase,
 					useValue: {
 						execute: jest.fn(),
 					},
 				},
 				{
-					provide: FindByEmail,
+					provide: FindByEmailUsecase,
 					useValue: {
 						execute: jest.fn(),
 					},
@@ -31,8 +31,8 @@ describe('UserService', () => {
 		}).compile();
 
 		service = module.get<UserService>(UserService);
-		createUserUsecase = module.get<CreateUser>(CreateUser);
-		findByEmailUsecase = module.get<FindByEmail>(FindByEmail);
+		createUserUsecase = module.get<CreateUserUsecase>(CreateUserUsecase);
+		findByEmailUsecase = module.get<FindByEmailUsecase>(FindByEmailUsecase);
 	});
 
 	afterEach(() => {
@@ -44,7 +44,7 @@ describe('UserService', () => {
 	});
 
 	describe('createUser', () => {
-		it('should call the CreateUser use case with correct parameters', async () => {
+		it('should call the CreateUserUsecase use case with correct parameters', async () => {
 			const mockUserCreateDto: UserCreateDto = {
 				name: 'John Doe',
 				email: 'john.doe@example.com',
@@ -84,7 +84,7 @@ describe('UserService', () => {
 	});
 
 	describe('findByEmail', () => {
-		it('should call the FindByEmail use case with correct parameters', async () => {
+		it('should call the FindByEmailUsecase use case with correct parameters', async () => {
 			const mockEmail = 'john.doe@example.com';
 
 			const mockUser: User = {
