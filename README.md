@@ -133,6 +133,9 @@ JWT_SECRET_KEY=your-jwt-secret-key-here
 BCRYPT_SALT_ROUNDS=10
 ```
 
+> ⚠️ **Importante**: Para `JWT_SECRET_KEY`, gere uma chave secreta forte com no mínimo 32 caracteres. A aplicação valida isso e não deixa o app subir.
+
+
 ### 3️⃣ Opção A: Instalação com Docker Compose (Recomendado)
 
 ```bash
