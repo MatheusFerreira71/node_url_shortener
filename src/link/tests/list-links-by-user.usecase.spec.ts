@@ -97,8 +97,8 @@ describe('ListLinksByUserUsecase', () => {
 
 			const result = await usecase.execute('user-123');
 
-			expect(result[0].short_url).toBe('http://localhost:3000/abc123');
-			expect(result[1].short_url).toBe('http://localhost:3000/def456');
+			expect(result[0].short_url).toBe('http://localhost:3000/link/abc123');
+			expect(result[1].short_url).toBe('http://localhost:3000/link/def456');
 		});
 
 		it('should include all required properties in returned links', async () => {
@@ -176,7 +176,7 @@ describe('ListLinksByUserUsecase', () => {
 			const result = await usecase.execute('user-123');
 
 			expect(configService.get).toHaveBeenCalledWith('BASE_URL');
-			expect(result[0].short_url).toBe(`${customBaseUrl}/abc123`);
+			expect(result[0].short_url).toBe(`${customBaseUrl}/link/abc123`);
 		});
 
 		it('should preserve all timestamps correctly', async () => {

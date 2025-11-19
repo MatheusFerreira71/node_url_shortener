@@ -27,7 +27,7 @@ export class ListLinksByUserUsecase implements Usecase<string, ReturnedLink[]> {
 		const links = await this.linkRepository.findBy({ user_id });
 
 		const mappedLinks = links.map<ReturnedLink>((link) => {
-			const shortUrl = `${this.configService.get('BASE_URL')}/${link.hash}`;
+			const shortUrl = `${this.configService.get('BASE_URL')}/link/${link.hash}`;
 			const {
 				current_url,
 				hash,

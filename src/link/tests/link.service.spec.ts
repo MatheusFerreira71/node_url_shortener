@@ -156,7 +156,7 @@ describe('LinkService', () => {
 					original_url: 'https://example.com/page1',
 					times_clicked: 10,
 					updated_at: new Date(),
-					short_url: 'http://localhost:3000/abc123',
+					short_url: 'http://localhost:3000/link/abc123',
 				},
 			];
 
@@ -195,7 +195,7 @@ describe('LinkService', () => {
 				created_at: new Date(),
 				user_id: mockPayload.user_id,
 				updated_at: new Date(),
-				short_url: 'http://localhost:3000/abc123',
+				short_url: 'http://localhost:3000/link/abc123',
 			};
 
 			jest.spyOn(updateLinkUsecase, 'execute').mockResolvedValue(mockResponse);

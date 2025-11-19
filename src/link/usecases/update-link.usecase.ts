@@ -52,7 +52,7 @@ export class UpdateLinkUsecase
 				current_url,
 			});
 
-		const shortUrl = `${this.configService.get('BASE_URL')}/${link.hash}`;
+		const shortUrl = `${this.configService.get('BASE_URL')}/link/${link.hash}`;
 
 		return {
 			current_url,

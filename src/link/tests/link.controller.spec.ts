@@ -120,7 +120,7 @@ describe('LinkController', () => {
 				current_url: mockCreatedLink.current_url,
 				hash: mockCreatedLink.hash,
 				user_id: mockCreatedLink.user_id,
-				short_url: 'http://localhost:3000/abc123',
+				short_url: 'http://localhost:3000/link/abc123',
 			});
 		});
 
@@ -205,7 +205,7 @@ describe('LinkController', () => {
 					original_url: 'https://example.com/page1',
 					times_clicked: 10,
 					updated_at: new Date(),
-					short_url: 'http://localhost:3000/abc123',
+					short_url: 'http://localhost:3000/link/abc123',
 				},
 			];
 
@@ -239,7 +239,7 @@ describe('LinkController', () => {
 				created_at: new Date(),
 				user_id: mockUser?.id ?? null,
 				updated_at: new Date(),
-				short_url: 'http://localhost:3000/abc123',
+				short_url: 'http://localhost:3000/link/abc123',
 			};
 
 			linkService.updateLink.mockResolvedValue(mockResponse);

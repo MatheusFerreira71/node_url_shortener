@@ -91,7 +91,7 @@ describe('UpdateLinkUsecase', () => {
 				created_at: updatedLink.created_at,
 				user_id: 'user-123',
 				updated_at: updatedLink.updated_at,
-				short_url: 'http://localhost:3000/abc123',
+				short_url: 'http://localhost:3000/link/abc123',
 			});
 			expect(linkRepository.findOneBy).toHaveBeenCalledWith({ hash: 'abc123' });
 			expect(linkRepository.save).toHaveBeenCalledWith({
@@ -197,7 +197,7 @@ describe('UpdateLinkUsecase', () => {
 
 			const result = await usecase.execute(payload);
 
-			expect(result.short_url).toBe('http://localhost:3000/abc123');
+			expect(result.short_url).toBe('http://localhost:3000/link/abc123');
 			expect(configService.get).toHaveBeenCalledWith('BASE_URL');
 		});
 
@@ -221,7 +221,7 @@ describe('UpdateLinkUsecase', () => {
 			const result = await usecase.execute(payload);
 
 			expect(configService.get).toHaveBeenCalledWith('BASE_URL');
-			expect(result.short_url).toBe(`${customBaseUrl}/abc123`);
+			expect(result.short_url).toBe(`${customBaseUrl}/link/abc123`);
 		});
 
 		it('should preserve link properties that are not being updated', async () => {

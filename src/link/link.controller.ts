@@ -136,7 +136,7 @@ export class LinkController {
 		const { expires_at, created_at, current_url, hash, user_id } =
 			await this.linkService.createLink(payload);
 
-		const shortUrl = `${this.configService.get('BASE_URL')}/${hash}`;
+		const shortUrl = `${this.configService.get('BASE_URL')}/link/${hash}`;
 
 		return {
 			expires_at,
