@@ -1,6 +1,6 @@
 {
 	"name": "node_url_shortener",
-	"version": "1.2.2",
+	"version": "1.2.3",
 	"description": "Aplicativo de encurtamento de URLs desenvolvido em Node.js. Permite converter links longos em endereços curtos e fáceis de compartilhar, com redirecionamento automático para o destino original. Inclui registro das URLs no banco de dados, contagem de cliques e suporte para autenticação e expiração de links.",
 	"author": "Matheus Ferreira",
 	"private": true,
