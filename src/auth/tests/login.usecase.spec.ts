@@ -5,10 +5,10 @@ import { BcryptService } from '../../bcrypt/bcrypt.service';
 import type { User } from '../../user/user.entity';
 import { UserService } from '../../user/user.service';
 import type { LoginDto, LoginResponse } from '../auth.types';
-import { Login } from '../usecases';
+import { LoginUsecase } from '../usecases';
 
-describe('Login', () => {
-	let loginUsecase: Login;
+describe('LoginUsecase', () => {
+	let loginUsecase: LoginUsecase;
 	let userService: jest.Mocked<UserService>;
 	let bcryptService: jest.Mocked<BcryptService>;
 	let jwtService: jest.Mocked<JwtService>;
@@ -16,7 +16,7 @@ describe('Login', () => {
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
 			providers: [
-				Login,
+				LoginUsecase,
 				{
 					provide: UserService,
 					useValue: {
@@ -38,7 +38,7 @@ describe('Login', () => {
 			],
 		}).compile();
 
-		loginUsecase = module.get<Login>(Login);
+		loginUsecase = module.get<LoginUsecase>(LoginUsecase);
 		userService = module.get(UserService);
 		bcryptService = module.get(BcryptService);
 		jwtService = module.get(JwtService);

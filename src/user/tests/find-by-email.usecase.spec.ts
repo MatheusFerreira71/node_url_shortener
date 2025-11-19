@@ -2,17 +2,17 @@ import { NotFoundException } from '@nestjs/common';
 import { Test, type TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import type { Repository } from 'typeorm';
-import { FindByEmail } from '../usecases';
+import { FindByEmailUsecase } from '../usecases';
 import { User } from '../user.entity';
 
-describe('FindByEmail', () => {
-	let findByEmail: FindByEmail;
+describe('FindByEmailUsecase', () => {
+	let findByEmail: FindByEmailUsecase;
 	let userRepository: jest.Mocked<Repository<User>>;
 
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
 			providers: [
-				FindByEmail,
+				FindByEmailUsecase,
 				{
 					provide: getRepositoryToken(User),
 					useValue: {
@@ -22,7 +22,7 @@ describe('FindByEmail', () => {
 			],
 		}).compile();
 
-		findByEmail = module.get<FindByEmail>(FindByEmail);
+		findByEmail = module.get<FindByEmailUsecase>(FindByEmailUsecase);
 		userRepository = module.get(getRepositoryToken(User));
 	});
 

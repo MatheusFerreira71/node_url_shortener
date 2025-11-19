@@ -1,12 +1,12 @@
 import { ConflictException } from '@nestjs/common';
 import type { Repository } from 'typeorm';
 import type { BcryptService } from '../../bcrypt/bcrypt.service';
-import { CreateUser } from '../usecases';
+import { CreateUserUsecase } from '../usecases';
 import type { User } from '../user.entity';
 import type { CreatedUserResponse, UserCreateDto } from '../user.types';
 
-describe('CreateUser', () => {
-	let createUser: CreateUser;
+describe('CreateUserUsecase', () => {
+	let createUser: CreateUserUsecase;
 	let usersRepository: jest.Mocked<Repository<User>>;
 	let bcryptService: jest.Mocked<BcryptService>;
 
@@ -21,7 +21,7 @@ describe('CreateUser', () => {
 			hash: jest.fn(),
 		} as unknown as jest.Mocked<BcryptService>;
 
-		createUser = new CreateUser(usersRepository, bcryptService);
+		createUser = new CreateUserUsecase(usersRepository, bcryptService);
 	});
 
 	afterEach(() => {

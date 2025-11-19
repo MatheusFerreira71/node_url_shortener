@@ -6,7 +6,7 @@ import type { Usecase } from '../../resources';
 import { User } from '../user.entity';
 
 @Injectable()
-export class FindByEmail implements Usecase<string, User> {
+export class FindByEmailUsecase implements Usecase<string, User> {
 	constructor(
 		@InjectRepository(User) private userRepository: Repository<User>,
 	) {}

@@ -1,18 +1,18 @@
 import { Test, type TestingModule } from '@nestjs/testing';
 import { AuthService } from '../auth.service';
 import type { LoginDto, LoginResponse } from '../auth.types';
-import { Login } from '../usecases';
+import { LoginUsecase } from '../usecases';
 
 describe('AuthService', () => {
 	let service: AuthService;
-	let loginUsecase: Login;
+	let loginUsecase: LoginUsecase;
 
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
 			providers: [
 				AuthService,
 				{
-					provide: Login,
+					provide: LoginUsecase,
 					useValue: {
 						execute: jest.fn(),
 					},
@@ -21,7 +21,7 @@ describe('AuthService', () => {
 		}).compile();
 
 		service = module.get<AuthService>(AuthService);
-		loginUsecase = module.get<Login>(Login);
+		loginUsecase = module.get<LoginUsecase>(LoginUsecase);
 	});
 
 	afterEach(() => {
@@ -33,7 +33,7 @@ describe('AuthService', () => {
 	});
 
 	describe('login', () => {
-		it('should call the Login use case with correct parameters', async () => {
+		it('should call the LoginUsecase use case with correct parameters', async () => {
 			const mockLoginDto: LoginDto = {
 				email: 'john.doe@example.com',
 				password: 'SecurePassword123',

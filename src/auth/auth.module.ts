@@ -3,11 +3,11 @@ import { BcryptModule } from '../bcrypt/bcrypt.module';
 import { UserModule } from '../user/user.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { Login } from './usecases';
+import { LoginUsecase } from './usecases';
 
 @Module({
 	controllers: [AuthController],
-	providers: [AuthService, Login],
+	providers: [AuthService, LoginUsecase],
 	imports: [UserModule, BcryptModule],
 })
 export class AuthModule {}
