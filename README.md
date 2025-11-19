@@ -76,7 +76,8 @@ O banco de dados utiliza PostgreSQL com as seguintes entidades principais:
 
 ## 🌐 Links Úteis
 
-- **📝 Documentação Swagger**: Disponível em `api/docs` quando o servidor estiver rodando
+- **🚀 Produção**: https://node-url-shortener-37h6.onrender.com
+- **📝 Documentação Swagger**: https://node-url-shortener-37h6.onrender.com/api/docs
 - **📮 Collection Postman**: [docs/Url Shortener.postman_collection.json](./docs/Url_Shortener.postman_collection.json)
 
 ## 🚀 Instruções de Instalação
