@@ -45,6 +45,6 @@ import { UserModule } from './user/user.module';
 })
 export class AppModule implements NestModule {
 	configure(consumer: MiddlewareConsumer) {
-		consumer.apply(LogMiddleware).forRoutes('*');
+		consumer.apply(LogMiddleware).exclude('health/*path').forRoutes('*');
 	}
 }
