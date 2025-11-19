@@ -1,3 +1,4 @@
+import { Link } from '../../link/link.entity';
 import { User } from '../user.entity';
 
 describe('User Entity', () => {
@@ -70,6 +71,53 @@ describe('User Entity', () => {
 		it('should allow deleted_at to be null', () => {
 			user.deleted_at = null;
 			expect(user.deleted_at).toBeNull();
+		});
+	});
+
+	describe('Relations', () => {
+		it('should have a links property', () => {
+			user.links = [];
+			expect(user.links).toBeDefined();
+			expect(Array.isArray(user.links)).toBe(true);
+		});
+
+		it('should allow multiple links to be associated', () => {
+			const link1 = new Link();
+			link1.id = 'link-1';
+			link1.original_url = 'https://example.com/1';
+			link1.current_url = 'https://example.com/1';
+			link1.hash = 'abc123';
+
+			const link2 = new Link();
+			link2.id = 'link-2';
+			link2.original_url = 'https://example.com/2';
+			link2.current_url = 'https://example.com/2';
+			link2.hash = 'def456';
+
+			user.links = [link1, link2];
+
+			expect(user.links).toHaveLength(2);
+			expect(user.links[0]).toBe(link1);
+			expect(user.links[1]).toBe(link2);
+		});
+
+		it('should maintain link references', () => {
+			const link = new Link();
+			link.id = 'link-test';
+			link.original_url = 'https://test.com';
+			link.current_url = 'https://test.com';
+			link.hash = 'test12';
+
+			user.links = [link];
+
+			expect(user.links[0].id).toBe('link-test');
+			expect(user.links[0].original_url).toBe('https://test.com');
+			expect(user.links[0].hash).toBe('test12');
+		});
+
+		it('should allow empty links array', () => {
+			user.links = [];
+			expect(user.links).toHaveLength(0);
 		});
 	});
 

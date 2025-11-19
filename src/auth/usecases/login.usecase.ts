@@ -6,7 +6,7 @@ import { BcryptService } from '../../bcrypt/bcrypt.service';
 import type { Usecase } from '../../resources';
 // biome-ignore lint/style/useImportType: falso positivo, o nest precisa usar isso na injeção de dependência
 import { UserService } from '../../user/user.service';
-import type { LoginDto, LoginResponse } from '../auth.types';
+import type { JwtPayload, LoginDto, LoginResponse } from '../auth.types';
 
 @Injectable()
 export class Login implements Usecase<LoginDto, LoginResponse> {
@@ -31,9 +31,9 @@ export class Login implements Usecase<LoginDto, LoginResponse> {
 			});
 		}
 
-		const payload = { sub: user.id };
+		const payload: JwtPayload = { sub: user.id };
 		return {
-			access_token: await this.jwtService.signAsync(payload),
+			access_token: await this.jwtService.signAsync<JwtPayload>(payload),
 			expires_at: new Date(Date.now() + 3600 * 1000),
 		};
 	}

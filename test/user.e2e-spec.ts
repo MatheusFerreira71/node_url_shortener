@@ -24,14 +24,25 @@ describe('User (e2e)', () => {
 		app.useGlobalFilters(new ZodExceptionFilter());
 
 		await app.init();
+
+		// Clean database before starting tests
+		await userRepository.query('DELETE FROM links');
+		await userRepository.query('DELETE FROM users');
 	}, 10000);
 
 	afterAll(async () => {
+		// Clean all data before closing
+		await userRepository.query('TRUNCATE TABLE links CASCADE');
+		await userRepository.query('TRUNCATE TABLE users CASCADE');
+		await userRepository.query('SELECT 1');
 		await app.close();
+		await new Promise((resolve) => setTimeout(resolve, 100));
 	});
 
 	afterEach(async () => {
-		await userRepository.clear();
+		// Delete in correct order to respect foreign key constraints
+		await userRepository.query('DELETE FROM links');
+		await userRepository.query('DELETE FROM users');
 	});
 
 	describe('/user (POST)', () => {
