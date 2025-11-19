@@ -41,7 +41,7 @@ services:
       - DB_NAME=${DB_NAME}
       - BCRYPT_SALT_ROUNDS=${BCRYPT_SALT_ROUNDS}
       - JWT_SECRET_KEY=${JWT_SECRET_KEY}
-      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_HOST=redis
       - REDIS_PORT=${REDIS_PORT}
     depends_on:
       - postgres
