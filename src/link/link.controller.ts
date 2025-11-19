@@ -16,7 +16,9 @@ import {
 import { ConfigService } from '@nestjs/config';
 import {
 	ApiBearerAuth,
+	ApiBody,
 	ApiOperation,
+	ApiParam,
 	ApiResponse,
 	ApiTags,
 } from '@nestjs/swagger';
@@ -57,9 +59,60 @@ export class LinkController {
 	@ApiOperation({
 		summary: 'Cria um novo link encurtado (autenticação opcional)',
 	})
+	@ApiBody({
+		schema: {
+			type: 'object',
+			properties: {
+				original_url: {
+					type: 'string',
+					format: 'uri',
+					example: 'https://www.example.com/pagina-muito-longa',
+					description: 'URL original a ser encurtada',
+				},
+				expires_at: {
+					type: 'string',
+					example: '2025-12-31 23:59:59.999 +0000',
+					description:
+						'Data de expiração do link (opcional) no formato YYYY-MM-DD HH:mm:ss.SSS ±HHMM',
+				},
+			},
+			required: ['original_url'],
+		},
+	})
 	@ApiResponse({
 		status: 201,
 		description: 'Link criado com sucesso',
+		schema: {
+			type: 'object',
+			properties: {
+				hash: {
+					type: 'string',
+					example: 'a1b2c3',
+				},
+				short_url: {
+					type: 'string',
+					example: 'http://localhost:3000/link/a1b2c3',
+				},
+				current_url: {
+					type: 'string',
+					format: 'uri',
+				},
+				expires_at: {
+					type: 'string',
+					format: 'date-time',
+					nullable: true,
+				},
+				created_at: {
+					type: 'string',
+					format: 'date-time',
+				},
+				user_id: {
+					type: 'string',
+					format: 'uuid',
+					nullable: true,
+				},
+			},
+		},
 	})
 	@ApiResponse({
 		status: 400,
@@ -97,6 +150,12 @@ export class LinkController {
 
 	@ApiBearerAuth()
 	@ApiOperation({ summary: 'Deleta um link (requer autenticação)' })
+	@ApiParam({
+		name: 'hash',
+		type: 'string',
+		description: 'Hash do link a ser deletado (6 caracteres)',
+		example: 'a1b2c3',
+	})
 	@ApiResponse({
 		status: 204,
 		description: 'Link deletado com sucesso',
@@ -132,6 +191,50 @@ export class LinkController {
 	@ApiResponse({
 		status: 200,
 		description: 'Lista de links retornada com sucesso',
+		schema: {
+			type: 'array',
+			items: {
+				type: 'object',
+				properties: {
+					hash: {
+						type: 'string',
+						example: 'a1b2c3',
+					},
+					short_url: {
+						type: 'string',
+						example: 'http://localhost:3000/link/a1b2c3',
+					},
+					original_url: {
+						type: 'string',
+						format: 'uri',
+					},
+					current_url: {
+						type: 'string',
+						format: 'uri',
+					},
+					times_clicked: {
+						type: 'number',
+					},
+					expires_at: {
+						type: 'string',
+						format: 'date-time',
+						nullable: true,
+					},
+					created_at: {
+						type: 'string',
+						format: 'date-time',
+					},
+					updated_at: {
+						type: 'string',
+						format: 'date-time',
+					},
+					user_id: {
+						type: 'string',
+						format: 'uuid',
+					},
+				},
+			},
+		},
 	})
 	@ApiResponse({
 		status: 401,
@@ -154,9 +257,64 @@ export class LinkController {
 	@ApiOperation({
 		summary: 'Atualiza a URL de destino de um link (requer autenticação)',
 	})
+	@ApiParam({
+		name: 'hash',
+		type: 'string',
+		description: 'Hash do link a ser atualizado (6 caracteres)',
+		example: 'a1b2c3',
+	})
+	@ApiBody({
+		schema: {
+			type: 'object',
+			properties: {
+				current_url: {
+					type: 'string',
+					format: 'uri',
+					example: 'https://www.example.com/nova-url',
+					description: 'Nova URL de destino',
+				},
+			},
+			required: ['current_url'],
+		},
+	})
 	@ApiResponse({
 		status: 200,
 		description: 'Link atualizado com sucesso',
+		schema: {
+			type: 'object',
+			properties: {
+				hash: {
+					type: 'string',
+					example: 'a1b2c3',
+				},
+				short_url: {
+					type: 'string',
+					example: 'http://localhost:3000/link/a1b2c3',
+				},
+				current_url: {
+					type: 'string',
+					format: 'uri',
+				},
+				expires_at: {
+					type: 'string',
+					format: 'date-time',
+					nullable: true,
+				},
+				created_at: {
+					type: 'string',
+					format: 'date-time',
+				},
+				updated_at: {
+					type: 'string',
+					format: 'date-time',
+				},
+				user_id: {
+					type: 'string',
+					format: 'uuid',
+					nullable: true,
+				},
+			},
+		},
 	})
 	@ApiResponse({
 		status: 400,
@@ -195,6 +353,12 @@ export class LinkController {
 
 	@ApiOperation({
 		summary: 'Acessa um link encurtado e redireciona para a URL original',
+	})
+	@ApiParam({
+		name: 'hash',
+		type: 'string',
+		description: 'Hash do link encurtado (6 caracteres)',
+		example: 'a1b2c3',
 	})
 	@ApiResponse({
 		status: 302,
