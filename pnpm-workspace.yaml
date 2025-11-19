@@ -3,5 +3,6 @@ packages:
 
 onlyBuiltDependencies:
   - '@nestjs/core'
+  - '@scarf/scarf'
   - bcrypt
   - unrs-resolver

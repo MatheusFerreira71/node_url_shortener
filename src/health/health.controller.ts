@@ -1,4 +1,5 @@
 import { Controller, Get, HttpCode, HttpStatus } from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 // biome-ignore lint/style/useImportType: falso positivo, o nest precisa das classes para injeção de dependência
 import {
 	HealthCheck,
@@ -8,7 +9,9 @@ import {
 	TypeOrmHealthIndicator,
 } from '@nestjs/terminus';
 import * as packageJson from '../../package.json';
+import type { VersionResponse } from './health.types';
 
+@ApiTags('Health Check')
 @Controller('health')
 export class HealthController {
 	constructor(
@@ -18,9 +21,14 @@ export class HealthController {
 		private memory: MemoryHealthIndicator,
 	) {}
 
+	@ApiOperation({ summary: 'Retorna a versão da aplicação' })
+	@ApiResponse({
+		status: 200,
+		description: 'Versão retornada com sucesso',
+	})
 	@HttpCode(HttpStatus.OK)
 	@Get('version')
-	getVersion() {
+	getVersion(): VersionResponse {
 		return {
 			name: packageJson.name,
 			version: packageJson.version,
@@ -28,6 +36,11 @@ export class HealthController {
 		};
 	}
 
+	@ApiOperation({ summary: 'Verifica o status da conexão HTTP' })
+	@ApiResponse({
+		status: 200,
+		description: 'Health check HTTP realizado com sucesso',
+	})
 	@HttpCode(HttpStatus.OK)
 	@Get('http')
 	@HealthCheck()
@@ -37,6 +50,13 @@ export class HealthController {
 		]);
 	}
 
+	@ApiOperation({
+		summary: 'Verifica o status da conexão com o banco de dados',
+	})
+	@ApiResponse({
+		status: 200,
+		description: 'Health check do banco realizado com sucesso',
+	})
 	@HttpCode(HttpStatus.OK)
 	@Get('db')
 	@HealthCheck()
@@ -44,6 +64,11 @@ export class HealthController {
 		return this.health.check([() => this.db.pingCheck('database')]);
 	}
 
+	@ApiOperation({ summary: 'Verifica o status de uso de memória' })
+	@ApiResponse({
+		status: 200,
+		description: 'Health check de memória realizado com sucesso',
+	})
 	@HttpCode(HttpStatus.OK)
 	@Get('memory')
 	@HealthCheck()
